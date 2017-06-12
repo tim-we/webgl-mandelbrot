@@ -50,7 +50,7 @@
 				
 				if(len > 2.0) {
 					float b = (i < M) ? float(i) * Mf : 1.0;
-					float g = (i < 2*M) ? float(i - M) * Mf : 1.0;
+					float g = (i < 2*M) ? 2.0 * float(i - M) * Mf : 1.0;
 					float r = (i < N) ? float(i - M - M) * Mf : 1.0;
 
 					gl_FragColor = colorBoost * vec4(r, g, b, 1.0);
