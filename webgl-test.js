@@ -7,6 +7,7 @@ var vertexPositionAttribute;
 var perspectiveMatrix;
 var rotateZ;
 var uniformP;
+var colorBoost;
 
 //
 // start
@@ -24,7 +25,7 @@ function start() {
   // Only continue if WebGL is available and working
 
   if (gl) {
-    gl.clearColor(0.0, 0.0, 0.25, 1.0);  // Clear to black, fully opaque
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
     //gl.clearDepth(1.0);                 // Clear everything
     //gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     //gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
@@ -133,6 +134,7 @@ function drawScene() {
   multMatrix(rotateZ);
   let power = 4.0 - 2.0 * Math.cos(performance.now() * 0.00015);
   gl.uniform1f(uniformP, power);
+  gl.uniform1f(colorBoost, 0.5 * (power - 1));
 
   // Draw the square by binding the array buffer to the square's vertices
   // array, setting attributes, and pushing it to GL.
@@ -172,6 +174,9 @@ function initShaders() {
   
   uniformP = gl.getUniformLocation(shaderProgram, "p");
   gl.uniform1f(uniformP, 2.0);
+
+  colorBoost = gl.getUniformLocation(shaderProgram, "colorBoost");
+  gl.uniform1f(colorBoost, 1.0);
 }
 
 //

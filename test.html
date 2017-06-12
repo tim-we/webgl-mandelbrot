@@ -8,20 +8,28 @@
     <script src="glUtils.js" type="text/javascript"></script>
     <script src="webgl-test.js" type="text/javascript"></script>
 
+		<style>
+			body {
+				background-color: black;
+			}
+		</style>
+
     <!-- Fragment shader program -->
 	
     <script id="shader-fs" type="x-shader/x-fragment">
 		precision highp float;
 		
 		uniform float p;
+		uniform float colorBoost;
 		
 		varying float real;
 		varying float img;
 		
 		const int N = 60;
-		const float boostFactor = 1.25;
+		const int M = N / 3;
+		const float Mf = 1.0 / float(M);
 		
-        void main(void) {
+      void main(void) {
 		
 			float alpha;
 			float radius2;
@@ -41,8 +49,11 @@
 				len = a*a + b*b;
 				
 				if(len > 2.0) {
-					float c = boostFactor * float(i)/float(N);
-					gl_FragColor = vec4(0.1*c, 0.42*c, c, 1.0);
+					float b = (i < M) ? float(i) * Mf : 1.0;
+					float g = (i < 2*M) ? float(i - M) * Mf : 1.0;
+					float r = (i < N) ? float(i - M - M) * Mf : 1.0;
+
+					gl_FragColor = colorBoost * vec4(r, g, b, 1.0);
 					return;
 				}
 			}
