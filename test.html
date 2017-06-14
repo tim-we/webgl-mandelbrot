@@ -12,9 +12,18 @@
 		body {
 			background-color: black;
 			color: white;
+			font-size: 16px;
 		}
 		
 		a { color: white; }
+
+		#power {
+			position: relative;
+			bottom: 4px;
+			font-size: 12px;
+			left: 2px;
+			margin-right: 3px;
+		}
 	</style>
 
     <!-- Fragment shader program -->
@@ -32,7 +41,7 @@
 		const int M = N / 3;
 		const float Mf = 1.0 / float(M);
 		
-      void main(void) {
+		void main(void) {
 		
 			float alpha;
 			float radius2;
@@ -40,7 +49,7 @@
 			float a = real;
 			float b = img;
 			
-			float len;
+			float d;
 			
 			for(int i = 0; i < N; i++) {
 				radius2 = pow(a*a + b*b, 0.5 * p);
@@ -49,9 +58,9 @@
 				a = radius2 * cos(alpha) + real;
 				b = radius2 * sin(alpha) + img;
 				
-				len = a*a + b*b;
+				d = a*a + b*b;
 				
-				if(len > 2.0) {
+				if(d > 2.0) {
 					// color
 					float b = (i < M) ? float(i) * Mf : 1.0;
 					float g = (i < 2*M) ? 2.0 * float(i - M) * Mf : 1.0;
@@ -63,8 +72,8 @@
 			}
 			
 			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
-        }
-    </script>
+		}
+		</script>
 
     <!-- Vertex shader program -->
 
@@ -87,8 +96,10 @@
 
   <body onload="start()">
 	  <a href="https://github.com/tim-we/webgl-mandelbrot/">Source Code on GitHub</a>
-	  <br>
+	  <br><br>
 	  
+		<div><span style="color: rgb(150,150,150)">iteration: </span> z &larr; z<span id="power">2.00</span> + c</div>
+
     <canvas id="glcanvas" width="800" height="600">
       Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
     </canvas>

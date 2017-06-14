@@ -8,6 +8,13 @@ var perspectiveMatrix;
 var rotateZ;
 var uniformP;
 var colorBoost;
+var powerSPAN;
+
+function setPower(power) {
+  gl.uniform1f(uniformP, power);
+
+  powerSPAN.innerHTML = power.toFixed(2);
+}
 
 //
 // start
@@ -18,6 +25,7 @@ var colorBoost;
 function start() {
   rotateZ = Matrix.RotationZ(0.0002 * 2* Math.PI).ensure4x4();
 	
+  powerSPAN = document.getElementById("power");
   canvas = document.getElementById("glcanvas");
 
   initWebGL(canvas);      // Initialize the GL context
@@ -133,7 +141,7 @@ function drawScene() {
   
   multMatrix(rotateZ);
   let power = 4.0 - 2.0 * Math.cos(performance.now() * 0.00015);
-  gl.uniform1f(uniformP, power);
+  setPower(power);
   gl.uniform1f(colorBoost, power - 1);
 
   // Draw the square by binding the array buffer to the square's vertices
@@ -173,7 +181,7 @@ function initShaders() {
   gl.enableVertexAttribArray(vertexPositionAttribute);
   
   uniformP = gl.getUniformLocation(shaderProgram, "p");
-  gl.uniform1f(uniformP, 2.0);
+  setPower(2.0);
 
   colorBoost = gl.getUniformLocation(shaderProgram, "colorBoost");
   gl.uniform1f(colorBoost, 1.0);
