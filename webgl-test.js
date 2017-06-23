@@ -142,7 +142,7 @@ function drawScene() {
   multMatrix(rotateZ);
   let power = 4.0 - 2.0 * Math.cos(performance.now() * 0.00015);
   setPower(power);
-  gl.uniform1f(colorBoost, power - 1);
+  gl.uniform1f(colorBoost, 0.5 * power);
 
   // Draw the square by binding the array buffer to the square's vertices
   // array, setting attributes, and pushing it to GL.
